@@ -13,7 +13,7 @@ configServer(app)
 const PORT = process.env.PORT || 6001
 
 try {
-    connectMongo()
+    await connectMongo()
     app.listen(PORT, () => console.log(`Server running on ${PORT}`))
 } catch (err) {
     console.log(`Server error: ${err}`)
