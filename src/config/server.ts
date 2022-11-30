@@ -3,7 +3,7 @@ import express from "express"
 import { fileURLToPath } from "url"
 import helmet from "helmet"
 import morgan from "morgan"
-import bodyParser from "body-parser"
+import bodyParser, { OptionsJson } from "body-parser"
 import cors from "cors"
 import { app } from "../app.js"
 import dotenv from "dotenv"
@@ -22,7 +22,7 @@ export default () => {
 
     app.use(morgan("common"))
 
-    app.use(bodyParser.json({ limit: "30mb", extended: true }))
+    app.use(bodyParser.json({ limit: "30mb", extended: true } as OptionsJson))
     app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
 
     app.use(cors())

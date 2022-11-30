@@ -1,4 +1,3 @@
-import dotenv from "dotenv"
 import { app } from "./app.js"
 import setupServer from "./config/server.js"
 import { connectMongo } from "./services/mongodb.js"
