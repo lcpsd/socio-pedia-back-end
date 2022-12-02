@@ -1,4 +1,13 @@
+import { JwtPayload } from "jsonwebtoken";
 import { Document } from "mongoose";
+
+declare global {
+    namespace Express {
+        export interface Request {
+            user: string | JwtPayload;
+        }
+    }
+}
 
 export interface UserModelProps extends Document, UserProps {
 }
@@ -15,3 +24,4 @@ export interface UserProps {
     viwedProfile: number;
     impressions: number;
 }
+
