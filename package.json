@@ -1,19 +1,21 @@
 {
   "name": "socio-pedia-back-end",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "repository": "https://github.com/lcpsd/socio-pedia-back-end.git",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --watch 'src/' --exec 'ts-node-esm src/server.ts' -e ts",
+    "dev": "nodemon --watch 'src/**' --ext 'ts,json' --exec yarn start",
     "build": "npx tsc",
     "start": "yarn build && node build/server.js"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
     "@types/morgan": "^1.9.3",
     "@types/multer": "^1.4.7",
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
