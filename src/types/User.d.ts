@@ -1,5 +1,7 @@
+import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { Document } from "mongoose";
+import { CustomReqParams, CustomReqParamsBody } from "./Express";
 
 declare global {
     namespace Express {
@@ -26,11 +28,16 @@ export interface UserProps {
     impressions: number;
 }
 
-interface ReqIdProps {
+export interface ReqIdProps {
     id?: string;
 }
 
-interface ReqReadAllProps {
+export interface ReqReadAllProps {
     startIndex?: number;
     endIndex?: number;
+}
+
+export interface UpdateUserReqBodyProps extends Request {
+    params: ReqIdProps;
+    body: Partial<UserProps>
 }

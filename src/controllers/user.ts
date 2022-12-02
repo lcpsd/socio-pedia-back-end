@@ -1,4 +1,4 @@
-import { ReqIdProps, ReqReadAllProps, UserModelProps, UserProps } from "../types/User";
+import { ReqIdProps, ReqReadAllProps, UpdateUserReqBodyProps, UserModelProps, UserProps } from "../types/User";
 import bcrypt from "bcrypt"
 import { Response } from "express";
 import { CustomReqBody, CustomReqParams } from "../types/Express";
@@ -63,8 +63,29 @@ export const userController = {
 
     },
 
-    async update(req: CustomReqBody<Partial<UserProps>>, res: Response) {
+    async update(req: UpdateUserReqBodyProps, res: Response) {
+        try {
+            const { id } = req.params
 
+            let updatedUser = await User.findOneAndUpdate(
+                { id }, req.body, { new: true }
+            )
+
+            if (!updatedUser) {
+                return res.status(404).json({ msg: "User not found" })
+            }
+
+            if (updatedUser) {
+                updatedUser.password = ""
+
+                return res.status(200).json(updatedUser)
+            }
+
+            throw new Error("Incorrect params")
+        } catch (error) {
+            console.log(error)
+            res.status(500)
+        }
     },
 
     async delete(req: CustomReqBody<ReqIdProps>, res: Response) {
