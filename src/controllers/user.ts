@@ -1,11 +1,11 @@
-import { UserProps } from "../types/User";
+import { UserModelProps } from "../types/User";
 import bcrypt from "bcrypt"
 import { Response } from "express";
 import { CustomRequest } from "../types/Express";
 import { User } from "../models/User.js";
 
 export const userController = {
-    async create(req: CustomRequest<UserProps>, res: Response) {
+    async create(req: CustomRequest<UserModelProps>, res: Response) {
         try {
             const body = req.body
 
@@ -30,7 +30,7 @@ export const userController = {
 
     },
 
-    async update(data: Partial<UserProps>) {
+    async update(data: Partial<UserModelProps>) {
 
     },
 

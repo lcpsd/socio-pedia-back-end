@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { UserProps } from "../types/User";
+import { UserModelProps } from "../types/User";
 
 
 const UserSchema = new mongoose.Schema(
@@ -45,4 +45,4 @@ const UserSchema = new mongoose.Schema(
     }
 )
 
-export const User = mongoose.model<UserProps>("User", UserSchema)
+export const User = mongoose.model<UserModelProps>("User", UserSchema)

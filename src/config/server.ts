@@ -30,5 +30,6 @@ export default () => {
 
     app.use("/assets", express.static(path.join(__dirname, "public/assets")))
 
-    app.use("/", authRoutes)
+    //Routes
+    app.use("/auth", authRoutes)
 }
