@@ -1,21 +1,21 @@
 import { Response } from "express"
 import { User } from "../models/User.js"
 import { login } from "../types/Auth.js"
-import { CustomRequest } from "../types/Express"
+import { CustomReqBody } from "../types/Express"
 import { UserModelProps } from "../types/User"
 import { userController } from "./user.js"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 
 export const authController = {
-    async register(req: CustomRequest<UserModelProps>, res: Response) {
+    async register(req: CustomReqBody<UserModelProps>, res: Response) {
         try {
             await userController.create(req, res)
         } catch (error) {
             res.status(500)
         }
     },
-    async login(req: CustomRequest<login>, res: Response) {
+    async login(req: CustomReqBody<login>, res: Response) {
         try {
             const { email, password } = req.body
             let checkUser = await User.findOne({ email })

@@ -1,11 +1,11 @@
 import { ReqIdProps, ReqReadAllProps, UserModelProps, UserProps } from "../types/User";
 import bcrypt from "bcrypt"
 import { Response } from "express";
-import { CustomRequest } from "../types/Express";
+import { CustomReqBody, CustomReqParams } from "../types/Express";
 import { User } from "../models/User.js";
 
 export const userController = {
-    async create(req: CustomRequest<UserModelProps>, res: Response) {
+    async create(req: CustomReqBody<UserModelProps>, res: Response) {
         try {
             const body = req.body
 
@@ -26,19 +26,48 @@ export const userController = {
             res.status(500)
         }
     },
-    async read(req: CustomRequest<ReqIdProps>, res: Response) {
+    async read(req: CustomReqParams<ReqIdProps>, res: Response) {
+        try {
+            const user = await User.findById(req.params.id)
+            const friends = await Promise.all(
+                user?.friends.map((id: string) => User.findById(id))
+            )
+
+            const sanitizedFriends = friends.map(({
+                id,
+                firstName,
+                lastName,
+                occupation,
+                location,
+                picturePath
+            }: UserProps) => {
+                return {
+                    id,
+                    firstName,
+                    lastName,
+                    occupation,
+                    location,
+                    picturePath
+                }
+            })
+
+            res.status(200).json({ ...user, friends: sanitizedFriends })
+
+        } catch (error) {
+            console.log(error)
+            res.status(500)
+        }
+    },
+
+    async readMany(req: CustomReqParams<ReqReadAllProps>, res: Response) {
 
     },
 
-    async readMany(req: CustomRequest<ReqReadAllProps>, res: Response) {
+    async update(req: CustomReqBody<Partial<UserProps>>, res: Response) {
 
     },
 
-    async update(req: CustomRequest<Partial<UserProps>>, res: Response) {
-
-    },
-
-    async delete(req: CustomRequest<ReqIdProps>, res: Response) {
+    async delete(req: CustomReqBody<ReqIdProps>, res: Response) {
 
     },
 }

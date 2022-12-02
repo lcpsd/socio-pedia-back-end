@@ -1,5 +1,9 @@
 import { Request } from "express";
 
-export interface CustomRequest<T> extends Request {
+export interface CustomReqBody<T> extends Request {
     body: T;
+}
+
+export interface CustomReqParams<T> extends Request {
+    params: T;
 }

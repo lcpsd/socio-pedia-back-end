@@ -4,7 +4,7 @@ import { Document } from "mongoose";
 declare global {
     namespace Express {
         export interface Request {
-            user: string | JwtPayload;
+            user?: string | JwtPayload;
         }
     }
 }
@@ -13,12 +13,13 @@ export interface UserModelProps extends Document, UserProps {
 }
 
 export interface UserProps {
+    id: string;
     firstName: string;
     lastName: string;
     email: string;
     password: string;
     picturePath: string;
-    friend: array;
+    friends: array;
     location: string;
     occupation: string;
     viwedProfile: number;
@@ -26,10 +27,10 @@ export interface UserProps {
 }
 
 interface ReqIdProps {
-    id: string;
+    id?: string;
 }
 
 interface ReqReadAllProps {
-    startIndex: number;
-    endIndex: number;
+    startIndex?: number;
+    endIndex?: number;
 }
