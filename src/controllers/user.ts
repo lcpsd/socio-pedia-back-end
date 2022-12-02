@@ -2,7 +2,7 @@ import { UserProps } from "../types/User";
 import bcrypt from "bcrypt"
 import { Response } from "express";
 import { CustomRequest } from "../types/Express";
-import { User } from "../models/User";
+import { User } from "../models/User.js";
 
 export const userController = {
     async create(req: CustomRequest<UserProps>, res: Response) {

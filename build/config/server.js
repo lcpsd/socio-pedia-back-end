@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { app } from "../app.js";
 import dotenv from "dotenv";
+import { authRoutes } from "../routes/auth.js";
 export default () => {
     dotenv.config();
     const __filename = fileURLToPath(import.meta.url);
@@ -19,4 +20,5 @@ export default () => {
     app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
     app.use(cors());
     app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+    app.use("/", authRoutes);
 };

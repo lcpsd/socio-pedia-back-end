@@ -7,6 +7,7 @@ import bodyParser, { OptionsJson } from "body-parser"
 import cors from "cors"
 import { app } from "../app.js"
 import dotenv from "dotenv"
+import { authRoutes } from "../routes/auth.js"
 
 export default () => {
 
@@ -28,4 +29,6 @@ export default () => {
     app.use(cors())
 
     app.use("/assets", express.static(path.join(__dirname, "public/assets")))
+
+    app.use("/", authRoutes)
 }
