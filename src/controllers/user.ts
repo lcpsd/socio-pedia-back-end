@@ -1,4 +1,4 @@
-import { UserModelProps } from "../types/User";
+import { ReqIdProps, ReqReadAllProps, UserModelProps, UserProps } from "../types/User";
 import bcrypt from "bcrypt"
 import { Response } from "express";
 import { CustomRequest } from "../types/Express";
@@ -26,15 +26,19 @@ export const userController = {
             res.status(500)
         }
     },
-    async read() {
+    async read(req: CustomRequest<ReqIdProps>, res: Response) {
 
     },
 
-    async update(data: Partial<UserModelProps>) {
+    async readMany(req: CustomRequest<ReqReadAllProps>, res: Response) {
 
     },
 
-    async delete(id: string) {
+    async update(req: CustomRequest<Partial<UserProps>>, res: Response) {
+
+    },
+
+    async delete(req: CustomRequest<ReqIdProps>, res: Response) {
 
     },
 }

@@ -25,3 +25,11 @@ export interface UserProps {
     impressions: number;
 }
 
+interface ReqIdProps {
+    id: string;
+}
+
+interface ReqReadAllProps {
+    startIndex: number;
+    endIndex: number;
+}
