@@ -9,6 +9,7 @@ import { app } from "../app.js"
 import dotenv from "dotenv"
 import { authRoutes } from "../routes/auth.js"
 import { userRoutes } from "../routes/user.js"
+import { postRoutes } from "../routes/posts.js"
 
 export default () => {
 
@@ -34,4 +35,5 @@ export default () => {
     //Routes
     app.use("/auth", authRoutes)
     app.use("/user", userRoutes)
+    app.use("/posts", postRoutes)
 }

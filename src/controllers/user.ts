@@ -1,4 +1,4 @@
-import { ReqIdProps, ReqReadAllProps, UpdateUserReqBodyProps, UserModelProps, UserProps } from "../types/User";
+import { ReqIdProps, ReqReadManyProps, CustomReqBodyParamsProps, UserModelProps, UserProps } from "../types/User";
 import bcrypt from "bcrypt"
 import { Response } from "express";
 import { CustomReqBody, CustomReqParams } from "../types/Express";
@@ -59,11 +59,11 @@ export const userController = {
         }
     },
 
-    async readMany(req: CustomReqParams<ReqReadAllProps>, res: Response) {
+    async readMany(req: CustomReqParams<ReqReadManyProps>, res: Response) {
 
     },
 
-    async update(req: UpdateUserReqBodyProps, res: Response) {
+    async update(req: CustomReqBodyParamsProps<Partial<UserProps>, ReqIdProps>, res: Response) {
         try {
             const { id } = req.params
 
@@ -75,10 +75,32 @@ export const userController = {
                 return res.status(404).json({ msg: "User not found" })
             }
 
+            const friends = await Promise.all(
+                updatedUser?.friends.map((id: string) => User.findById(id))
+            )
+
+            const sanitizedFriends = friends.map(({
+                id,
+                firstName,
+                lastName,
+                occupation,
+                location,
+                picturePath
+            }: UserProps) => {
+                return {
+                    id,
+                    firstName,
+                    lastName,
+                    occupation,
+                    location,
+                    picturePath
+                }
+            })
+
             if (updatedUser) {
                 updatedUser.password = ""
 
-                return res.status(200).json(updatedUser)
+                return res.status(200).json({ ...updatedUser, friends: sanitizedFriends })
             }
 
             throw new Error("Incorrect params")

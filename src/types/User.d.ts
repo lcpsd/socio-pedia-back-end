@@ -32,12 +32,12 @@ export interface ReqIdProps {
     id?: string;
 }
 
-export interface ReqReadAllProps {
+export interface ReqReadManyProps {
     startIndex?: number;
     endIndex?: number;
 }
 
-export interface UpdateUserReqBodyProps extends Request {
-    params: ReqIdProps;
-    body: Partial<UserProps>
+export interface CustomReqBodyParamsProps<T1, T2> extends Request {
+    body: T1;
+    params: T2;
 }
