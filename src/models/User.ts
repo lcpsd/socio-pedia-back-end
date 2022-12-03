@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
+import paginate from "mongoose-paginate-v2"
 import { UserModelProps } from "../types/User";
 
 
@@ -32,7 +33,7 @@ const UserSchema = new mongoose.Schema(
             default: ""
         },
         friends: {
-            type: Array,
+            type: mongo.ObjectId,
             default: []
         },
         location: String,
@@ -45,4 +46,6 @@ const UserSchema = new mongoose.Schema(
     }
 )
 
-export const User = mongoose.model<UserModelProps>("User", UserSchema)
+UserSchema.plugin(paginate)
+
+export const User = mongoose.model<UserModelProps, mongoose.PaginateModel<UserModelProps>>("User", UserSchema)

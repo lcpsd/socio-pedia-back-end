@@ -3,6 +3,7 @@ import bcrypt from "bcrypt"
 import { Response } from "express";
 import { CustomReqBody, CustomReqParams } from "../types/Express";
 import { User } from "../models/User.js";
+import { PaginateOptions } from "mongoose";
 
 export const userController = {
     async create(req: CustomReqBody<UserModelProps>, res: Response) {
@@ -28,39 +29,33 @@ export const userController = {
     },
     async read(req: CustomReqParams<ReqIdProps>, res: Response) {
         try {
-            const user = await User.findById(req.params.id)
-            const friends = await Promise.all(
-                user?.friends.map((id: string) => User.findById(id))
-            )
+            const page = req.params
 
-            const sanitizedFriends = friends.map(({
-                id,
-                firstName,
-                lastName,
-                occupation,
-                location,
-                picturePath
-            }: UserProps) => {
-                return {
-                    id,
-                    firstName,
-                    lastName,
-                    occupation,
-                    location,
-                    picturePath
-                }
-            })
+            if (!page) {
+                const user = await User
+                    .findOne({ id: req.params.id }, '-password')
 
-            res.status(200).json({ ...user, friends: sanitizedFriends })
+                return res.status(200).json({ ...user })
+            }
+
+            const users = await User.paginate({}, { page: page, limit: 50, } as PaginateOptions,
+                (err, result) => {
+                    if (err) {
+                        throw new Error(err)
+                    }
+
+                    return result.docs
+                })
+
+            const sanitized = users.docs.map(user => user.password = "")
+
+            return res.status(200).json({ ...sanitized })
+
 
         } catch (error) {
             console.log(error)
             res.status(500)
         }
-    },
-
-    async readMany(req: CustomReqParams<ReqReadManyProps>, res: Response) {
-
     },
 
     async update(req: CustomReqBodyParamsProps<Partial<UserProps>, ReqIdProps>, res: Response) {
